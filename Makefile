@@ -4,11 +4,11 @@ endif
 
 include .env	
 	
-build-kubrick:
+build-vaas:
 	docker compose build
 
-start-kubrick:
+start-vaas:
 	docker compose up --build -d
 
-stop-kubrick:
+stop-vaas:
 	docker compose stop

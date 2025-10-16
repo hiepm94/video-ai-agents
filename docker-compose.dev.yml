@@ -1,12 +1,12 @@
 services:
-  kubrick-mcp:
-    container_name: kubrick-mcp
+  vaas-mcp:
+    container_name: vaas-mcp
     build:
-      context: ./kubrick-mcp
+      context: ./vaas-mcp
     ports:
       - "9090:9090"
     env_file:
-      - ./kubrick-mcp/.env
+      - ./vaas-mcp/.env
     command: sleep infinity
     networks:
       - agent-network
@@ -27,34 +27,34 @@ services:
           cpus: '4'    
           memory: 4G   
 
-  kubrick-api:
-    container_name: kubrick-api
+  vaas-api:
+    container_name: vaas-api
     build:
-      context: ./kubrick-api
+      context: ./vaas-api
     command: sleep infinity
     ports:
       - "8080:8080"
     environment:
       - DISABLE_NEST_ASYNCIO=True
     env_file:
-      - ./kubrick-api/.env
+      - ./vaas-api/.env
     networks:
       - agent-network
     depends_on:
-      - kubrick-mcp
+      - vaas-mcp
     volumes:
       - shared_media:/app/shared_media
       - ./.vscode:/app/.vscode
-  kubrick-ui:
-    container_name: kubrick-ui
+  vaas-ui:
+    container_name: vaas-ui
     build:
-      context: ./kubrick-ui
+      context: ./vaas-ui
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
-      - kubrick-api
-      - kubrick-mcp
+      - vaas-api
+      - vaas-mcp
     networks:
       - agent-network
     volumes:
